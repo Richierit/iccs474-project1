@@ -22,6 +22,9 @@
       <link rel="import"
         href="../bower_components/paper-tabs/paper-tabs.html">
       <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+      <link rel ="import" href = "../bower_components/paper-button/paper-button.html">
+      <link rel ="import" href = "../bower_components/paper-input-master/paper-input.html">
+      <link rel ="import" href = "../bower_components/core-header-panel/core-header-panel.html">
 
       
       <!--JQUERY-->
@@ -38,7 +41,7 @@
       html,body {
         height: 100%;
         margin: 0;
-        background-color: #E5E5E5;
+        background-color: #E5E5E5 ;
         font-family: 'RobotoDraft', sans-serif;
       }
       core-header-panel {
@@ -47,12 +50,25 @@
         -webkit-overflow-scrolling: touch;
       }
       core-toolbar {
-        background: #03a9f4;
+        background: #5882FA;
         color: white;
       }
-      button{
-        color: black;
-
+      #headline{
+        text-align: left;
+        width: 100%;
+        margin: 0;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        text-transform: uppercase;
+        /*background: #03a9f4;*/
+        color: white;
+        text-decoration: bold;
+      }
+      paper-button{
+        padding: 10px;
+        margin-top: 10px;
       }
       #tabs {
         width: 100%;
@@ -63,31 +79,39 @@
         user-select: none;
         text-transform: uppercase;
       }
-      /*.container {
-        width: 80%;
-        margin: 50px auto;
-      }*/
       @media (min-width: 481px) {
         #tabs {
           width: 200px;
         }
-        /*.container {
-          width: 400px;
-        }*/
       }
       h3 {
         color: red;
       }
-
+      #clickfbpagename {
+        background: #2E64FE;
+        color: white;
+      }
+      #enterfbpagename {
+          background-color:#eeeeee;
+          text-align: center;
+          float:center;
+          padding:5px; 
+      }
       
+      #homey{
+        background-color:#eeeeee;
+          text-align: center;
+          float:left;
+          padding:5px; 
+      }
+      #home{
+        color:black;
+      }
+      #homebutton{
+        background-color: #E6E6E6;
+      }
 </style>
 <style type='text/css'> #thumbs{float:left;width:200px;} #thumbs img{display:block;margin:0 0 10px;cursor:pointer;} #viewer{float:left;} </style>
-
-
-
-
-
-
 
 
   <body>
@@ -113,55 +137,20 @@
 
 
     </script>
-    <header>
-        <h1 layout vertical center id = "headline">Facebook Fanpage Photo Loader</h1>
-        <a layout vertical center href = "index.html">
-          <button > HOME </button>
-        </a>
+    <header>  
 
-        <div layout vertical center id = "enterfbpagename" >
-          Facebook.com/<input id = "fbname" type="text"  placeholder = "ENTER PAGE NAME" onkeypress = "keyp(event)">
-
-          <input id = "clickfbpagename" type="button" value="LOAD ALBUMS">
-        </div>
-
-        <div layout vertical center id = "table">
-          <table  id="Albums" width = "50%">
-          </table>
-        </div>
-
-        <script>
-        $( "#clickfbpagename" ).click(function( ) {
-            fbpagename();
-            
-          });
-        function keyp(e){
-          if(e.which ==13){
-            fbpagename()
-          }
-        }
-          function fbpagename(){
-            fbname1 = document.getElementById('fbname').value
-            fbnameinput(fbname1)
-            alert("loading albums from FACEBOOK.com/" + fbname1)
-            loaddefault()
-          };
-        </script>
       </header>
     <script>
     
     function fbnameinput(fbname){
       loadd(fbname)
+      $("Albums").show();
     }
 
     function loadd(fbname1){
       $.get("https://graph.facebook.com/"+fbname1+"/albums",
                 function (response) {
 
-                  var photo = document.createElement("h1")
-                  $("#headline").html("")
-                  photo.innerHTML = "Facebook Fanpage Photo Loader | "+fbname1+" | Albums  "
-                  $("#headline").append(photo)
                   
 
                   $("#Albums").show();
@@ -184,6 +173,7 @@
         function makeTables(data){
             console.log("MAKE TABLE")
             $("#Albums").append("<tr> <td><h2> NAME</h2> </td> <td><h2> PHOTOS </h2></td> </tr>")
+
             $.each(data, function(index, element) {
               $("#Albums").append("<tr><td class = "+element.id+" > "+element.name+"     </td><td>"+element.count+" Photos </td><tr>")
               $("."+element.id).click(function() {
@@ -201,10 +191,10 @@
     </script>
     <script>
         function loadpic( album_id, name ){
-              var photo = document.createElement("h1")
-              $("#headline").html("")
-              photo.innerHTML = "Facebook Fanpage Photo Loader | Albums | "+ name 
-              $("#headline").append(photo)
+              var photo = document.createElement("core-header-panel")
+
+
+
           $.get("https://graph.facebook.com/"+album_id+"/photos",
             function (response) {
               console.log("Response = ")
@@ -321,27 +311,58 @@
       }
     </script>
       <core-header-panel >
-        <core-toolbar layout vertical center>
-          <paper-tabs id="tabs" selected="all" self-end>
-            <paper-tab name="all" id = "papertab">Photo Loader</paper-tab>
-          </paper-tabs> 
+      
+        
+        <core-toolbar>
+        <paper-icon-button icon = "face"> </paper-icon-button>
+        <paper-icon-button icon = "book"> </paper-icon-button>
+        <div id ="headline"class = "core-header">Facebook Fanpage Photo Loader</div>
         </core-toolbar>
+
+        <div id = "homey">
+          <a href = "index.html" id = "home"> 
+          <paper-button id ="homebutton" >
+            <core-icon icon="home"></core-icon>HOME 
+          </paper-button>
+          </a>
+        </div>
+        <div id = "enterfbpagename" >
+          https://www.facebook.com/<paper-input id = "fbname" type="text"  label = "ENTER PAGE NAME" onkeypress = "keyp(event)"></paper-input>
+          <!--<input id = "clickfbpagename" type="button" value="LOAD ALBUMS">-->
+          <paper-button id = "clickfbpagename"class = "colored" > 
+          <core-icon icon="check"></core-icon>
+          LOAD ALBUMS
+          </paper-button>
+        </div>
 
       <!-- main page content will go here -->
         <div layout vertical center class = "container">
+          <div layout vertical center id = "table">
+            <table  id="Albums" width = "50%">
+            </table>
+          </div>
                 <div class="fb-like-box" id = "fb-like-box" data-href="https://www.facebook.com/yokhandsome" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true">
                 </div>
         </div>
       </core-header-panel>
+      <script>
+        $( "#clickfbpagename" ).click(function( ) {
+            fbpagename();
+        });
+        function keyp(e){
+          if(e.which ==13){
+            fbpagename();
+          }
+        }
+          function fbpagename(){
+            fbname1 = document.getElementById('fbname').value
+            fbnameinput(fbname1)
+            alert("loading albums from FACEBOOK.com/" + fbname1)
+          };
+        </script>
 
       <footer>
         <p>&copy; 2015 Supasit Tanapatpiboon.</p>
       </footer>
-    <script>
-      var tabs = document.querySelector('paper-tabs');
-      tabs.addEventListener('core-select', function() {
-        console.log("Selected: " + tabs.selected);
-      });
-    </script>
   </body>
 </html>

@@ -124,7 +124,13 @@ role="button">
         -webkit-flex-basis: 0.000000001px;
         flex-basis: 0.000000001px;
       }
-
+      #my-button::shadow #ripple {
+        color: blue;
+      }
+      #my-button {
+        background: green;
+        color: yellow;
+    }
     </style>
 
     <template if="{{raised}}">
@@ -137,8 +143,8 @@ role="button">
     </div>
 
     <core-a11y-keys keys="space enter" target="{{}}" on-keys-pressed="{{_activate}}"></core-a11y-keys>
-
   </template>
+
 
   <script>
     Polymer({
