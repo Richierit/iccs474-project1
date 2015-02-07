@@ -115,7 +115,7 @@
     </script>
     <header>
         <h1 layout vertical center id = "headline">Facebook Fanpage Photo Loader</h1>
-        <a layout vertical center href = "yokkoy.html">
+        <a layout vertical center href = "index.html">
           <button > HOME </button>
         </a>
 
@@ -123,9 +123,6 @@
           Facebook.com/<input id = "fbname" type="text"  placeholder = "ENTER PAGE NAME" onkeypress = "keyp(event)">
 
           <input id = "clickfbpagename" type="button" value="LOAD ALBUMS">
-          <button>
-            YOKKOY
-          </button>
         </div>
 
         <div layout vertical center id = "table">
@@ -181,50 +178,6 @@
             )
     }
     </script>
-    <!--<script>
-      //listen to button
-      /*$("#login").click(function login(){
-        FB.login(function(response) {
-          console.log(response);
-          console.log("successfully login")
-          //user login successfully, do something?
-          $("#showalbum").show()
-          $("#login").hide()
-        },{
-          scope: 'user_photos',
-          return_scopes: true,
-          enable_profile_selector: true
-        });
-      })
-    </script>
-    <script>
-      //Showalbum
-      /*$("#showalbum").click(function showalbum( ){
-        load()
-       var photo = document.createElement("h1")
-
-              $("#headline").html("")
-              photo.innerHTML = "Yokkoy Handsome Photo Loader | Albums "
-              $("#headline").append(photo)
-              $("#Albums").show();
-
-        console.log("Loading Albums")
-
-        $.get("https://graph.facebook.com/"+fbnameinput()+"/albums",
-                function (response) {
-                  $("#Albums").show();
-                  console.log(response)
-                  if (response && !response.error) {
-                      //listTables(response.data);
-                    // albums loaded as array, try to show this data in table
-                    // set class name for each row
-                    // set album-id as HTML attribute for each row
-                      makeTables(response.data)
-                  }
-                }
-            )
-    })*/
-    </script> -->
     
     <script>
         //display table of data
@@ -277,50 +230,6 @@
                 
               })
           }
-
-          /*FB.api(
-            "/"+ album_id +"/photos",
-            function (response) {
-              console.log("Response = ")
-              console.log(response)
-              if (response && !response.error) {
-                  
-                  $.each(response, function(index, element){
-                    $.each(element, function(k,item){
-                      //console.log("index = ")
-                      //console.log(k)
-                      console.log("item = ")
-                      console.log(item)
-                      //console.log("item source = ")
-                      //console.log(item.source)
-                      //console.log("Likes = ")
-                      //console.log(item.likes.data.length)
-                      //console.log("likes = ")
-                      //console.log(item)
-                      //sortlike(item, mostlikes);
-                      //pthem(item.source);
-                      showpic(item.source, item.id);
-                      viewonfb(item.link);
-                      anchorthem(item.source);
-                      manylikes(item.id);
-                      writename(item.name, item.id);
-                      likebar(item.id);
-                      if(item.likes.data.length > mostlikes){
-                        mostlikes = item.likes.data.length
-                        mostlikesname = item.name
-                      }//else {console.log("NO")}
-                      console.log("most likes = ")
-                      console.log(mostlikes)
-                      console.log("Most likes Post is ")
-                      console.log(mostlikesname)
-                    })
-                  })
-                // photos loaded as array
-                // each photo response contain many sizes of one photo.
-                // Pick one and show it in image tag
-              }
-            }
-          )*/
     </script>
     <script>
      function sortlike(albumid){
@@ -381,14 +290,6 @@
             img.src = source
             $(".container").append(img)
             console.log("Drawing")
-            //img.id = id
-            //img.class = "image"
-            //img.id = "image"
-            //img.max-height = 50
-            //img.width = "50px"
-            //document.body.appendChild(container)
-            //$(".container").append.innerHTML("################")
-            //$("#Pictures").append("<tr><td><img src = "source"></td><tr>")
           }
     }
     </script>
