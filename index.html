@@ -6,10 +6,6 @@
     <!-- 1. Load platform support before any code that touches the DOM. -->
       <script src="./bower_components/webcomponentsjs/webcomponents.min.js"></script>
     <!-- 2. Load the component using an HTML Import -->
-    <!--  <link rel="import" href="elements/my-element.html">
-      <link rel="import" href="elements/color-picker.html">-->
-      <!-- <link rel="import" href="elements/editable-color-picker.html"> 
-      <link rel="import" href="elements/editable-fb-link.html">-->
       <meta name="viewport"
         content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
       </script>
@@ -21,20 +17,16 @@
         href="../bower_components/core-toolbar/core-toolbar.html">
       <link rel="import"
         href="../bower_components/paper-tabs/paper-tabs.html">
-      <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
       <link rel ="import" href = "../bower_components/paper-button/paper-button.html">
       <link rel ="import" href = "../bower_components/paper-input-master/paper-input.html">
       <link rel ="import" href = "../bower_components/core-header-panel/core-header-panel.html">
       <link rel ="import" href = "../bower_components/core-selector/core-selector.html">
       <link rel ="import" href = "../bower_components/paper-item/paper-item.html">
-
-      
       <!--JQUERY-->
       <script src = "http://code.jquery.com/jquery-1.11.2.min.js" type = "text/javascript" charset = "utf-8">
       </script>
       <!--BOOTSTRAP-->
       <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-
 <style>
       html,body {
         height: 100%;
@@ -51,6 +43,18 @@
         background: #5882FA;
         color: white;
       }
+      #homey{
+          text-align: center;
+          float:center;
+          padding:55px;
+          margin-bottom: 10px;
+      }
+      #home{
+        color:white;
+      }
+      #homebutton{
+        background-color: #2E64FE;
+      }
       #headline{
         text-align: left;
         width: 100%;
@@ -60,7 +64,6 @@
         -ms-user-select: none;
         user-select: none;
         text-transform: uppercase;
-        /*background: #03a9f4;*/
         color: white;
         text-decoration: bold;
       }
@@ -87,18 +90,11 @@
           width: 200px;
         }
       }
-      
-      #clickfbpagename {
-        background: #2E64FE;
-        color: white;
-        float:center;
-      }
       #enterfbpagename {
           margin: 20px;
           margin-right: 20px;
           margin-left: 20px;
           background-color:#D8D8D8;
-          float:center;
           text-align: center;
           padding:5px; 
       }
@@ -108,17 +104,15 @@
         float:center;
         padding:5px; 
       }
-      #homey{
-        background-color:#58FAAC;
+      #enterfbpagenamebutton{
           text-align: center;
           float:center;
           padding:5px; 
       }
-      #home{
-        color:white;
-      }
-      #homebutton{
-        background-color: #2E64FE;
+      #clickfbpagename {
+        background: #2E64FE;
+        color: white;
+        float:center;
       }
       img{
       margin: 20px;
@@ -134,16 +128,9 @@
         background-color: white;
       }
 </style>
-      
-      
   </head>
-  
-
-  <body>
-
-    
-    
-    <script>
+<body>
+   <script>
       //FB init
       window.fbAsyncInit = function() {
             FB.init({
@@ -159,14 +146,9 @@
              js.src = "//connect.facebook.net/en_US/sdk.js";
              fjs.parentNode.insertBefore(js, fjs);
            }(document, 'script', 'facebook-jssdk'));
-
-
     </script>
-    <header>  
-
-      </header>
+    <header></header>
     <script>
-    
     function fbnameinput(fbname){
       loadd(fbname)
       $("Albums").show();
@@ -239,7 +221,6 @@
               })
           }
     </script>
-
     <script>
     function next1(next){
       var next2 = next
@@ -249,7 +230,6 @@
             function (response) {
               console.log("Response = ")
               console.log(response)
-
               if (response && !response.error) {
                   $.each(response, function(index, element){
                     $.each(element, function(k,item){
@@ -309,21 +289,16 @@
               console.log(getlike)    
             }
     </script>
-
     <script>
       function writelikes(like, id){
                   var htree = document.createElement("h3")
-                  // = "htree"
                   htree.innerHTML = like + " peoples like this"
                   $("#"+id).append(htree)
       }
     </script>
-    
     <script>
-
     function showpic(source, id){
 
-        //console.log(source)
           if(source!= null){
             var img = document.createElement("img")
             img.src = source
@@ -360,52 +335,43 @@
       }
     </script>
       <core-header-panel layout vertical center>
-      
-        
         <core-toolbar>
+          <div id = "homey">
+            <a href = "index.html" id = "home"> 
+            <paper-button id ="homebutton" >
+              <core-icon icon="home"></core-icon>HOME 
+            </paper-button>
+            </a>
+          </div>
           <paper-icon-button icon = "face"> </paper-icon-button>
           <paper-icon-button icon = "book"> </paper-icon-button>
           <div id ="headline"class = "core-header">Facebook Fanpage Photo Loader</div>
           <paper-button id = "seemore"><core-icon icon = "forward"> </core-icon>SEE MORE 
           </paper-button>
         </core-toolbar>
-
-        <div id = "homey">
-          <a href = "index.html" id = "home"> 
-          <paper-button id ="homebutton" >
-            <core-icon icon="home"></core-icon>HOME 
-          </paper-button>
-          </a>
-        </div>
-
         <!--INPUT BOX-->
-        <div id = "enterfbpagename" layout vertical center>
-           https://www.facebook.com/
-           <paper-input-decorator  id = "enterfbpagenamebox" error="input is required" label = "ENTER PAGE NAME" autovalidate = "" layout = "" class="" focused="" type="text"  placeholder = "" >
-              <input is = "core-input" required = "" placeholder = "" id = "fbname" onkeypress = "keyp(event)">
+        <div id = "enterfbpagename" horizontal layout center>
+           <div >https://www.facebook.com/</div>
+           <paper-input-decorator flex self-center id = "enterfbpagenamebox" error="input is required" label = "ENTER PAGE NAME" autovalidate = "" layout = "" class="" focused="" type="text"  placeholder = "" >
+              <input flex self-center is = "core-input" required = "" placeholder = "" id = "fbname" onkeypress = "keyp(event)">
             </paper-input-decorator>
-            <p>Example : 9gag , yokhandsome , microsoft , minecraft , facebook </p>
-            <paper-button id = "clickfbpagename"class = "colored" > 
-              <core-icon icon="check"></core-icon> LOAD ALBUMS
-            </paper-button>
+            <div flex self-center>Example : 9gag , yokhandsome , microsoft , minecraft , facebook </div>
         </div>
-        <!--
-          <div layout vertical center id = "table">
-            <table  id="Albums" width = "50%">
-            </table>
-          </div>-->
+        <div id = "enterfbpagenamebutton">
+          <paper-button id = "clickfbpagename"class = "colored" > 
+                <core-icon icon="check"></core-icon> LOAD ALBUMS
+          </paper-button>
+        </div>
           <!-- main page content will go here -->
           <!-- container for button created for page content-->
           <div layout vertical center class = "container">
             <section>
               <core-selector layout vertical center id = "Albums">
-                <h2 id = "Albumsheader">
-                  
-                </h2>
+                <h2 id = "Albumsheader"></h2>
               </core-selector>
             </section>
           <div class="fb-like-box" id = "fb-like-box" data-href="https://www.facebook.com/yokhandsome" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true">
-                </div>
+          </div>
         </div>
       </core-header-panel>
       <script>
