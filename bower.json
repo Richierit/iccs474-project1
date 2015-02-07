@@ -1,0 +1,23 @@
+{
+  "name": "PROJECT1",
+  "version": "0.0.0",
+  "authors": [
+    "supasit <supasit.rit@gmail.com>"
+  ],
+  "description": "ICCS474",
+  "keywords": [
+    "default"
+  ],
+  "license": "MIT",
+  "homepage": "default",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.4"
+  }
+}

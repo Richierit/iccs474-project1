@@ -1,0 +1,28 @@
+<link rel="import"
+      href="../bower_components/polymer/polymer.html">
+
+
+
+
+
+
+      
+<polymer-element name="editable-fb-link" attributes="owner color">
+  <template>
+    <p>
+    Getting photo albums from facebook.com/<b style = "color: {{color}}"> <strong>{{owner}}</strong></b>.
+    
+    </p>
+    <input id="nameInput" value="{{owner}}"
+           placeholder="Your name here...">
+
+  </template>
+  <script>
+
+    Polymer({
+      color: "blue",
+      owner: "yokhandsome",
+    });
+
+  </script>
+</polymer-element>

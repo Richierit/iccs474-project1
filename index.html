@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <link rel="import" href="./bower_components/polymer/polymer.html">
+      <title>Facebook Fanpage Photo Loader</title>
+    <!-- 1. Load platform support before any code that touches the DOM. -->
+      <script src="./bower_components/webcomponentsjs/webcomponents.min.js"></script>
+    <!-- 2. Load the component using an HTML Import -->
+    <!--  <link rel="import" href="elements/my-element.html">
+      <link rel="import" href="elements/color-picker.html">-->
+      <!-- <link rel="import" href="elements/editable-color-picker.html"> 
+      <link rel="import" href="elements/editable-fb-link.html">-->
+      <meta name="viewport"
+        content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+      </script>
+      <link rel="import"
+        href="../bower_components/font-roboto/roboto.html">
+      <link rel="import"
+        href="../bower_components/core-header-panel/core-header-panel.html">
+      <link rel="import"
+        href="../bower_components/core-toolbar/core-toolbar.html">
+      <link rel="import"
+        href="../bower_components/paper-tabs/paper-tabs.html">
+      <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+      
+      <!--JQUERY-->
+      <script src = "http://code.jquery.com/jquery-1.11.2.min.js" type = "text/javascript" charset = "utf-8">
+      </script>
+      <!--BOOTSTRAP-->
+      <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+
+      
+      
+  </head>
+  <style>
+      html,body {
+        height: 100%;
+        margin: 0;
+        background-color: #E5E5E5;
+        font-family: 'RobotoDraft', sans-serif;
+      }
+      core-header-panel {
+        height: 100%;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      core-toolbar {
+        background: #03a9f4;
+        color: white;
+      }
+      button{
+        color: black;
+
+      }
+      #tabs {
+        width: 100%;
+        margin: 0;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        text-transform: uppercase;
+      }
+      /*.container {
+        width: 80%;
+        margin: 50px auto;
+      }*/
+      @media (min-width: 481px) {
+        #tabs {
+          width: 200px;
+        }
+        /*.container {
+          width: 400px;
+        }*/
+      }
+      h3 {
+        color: red;
+      }
+
+      
+</style>
+<style type='text/css'> #thumbs{float:left;width:200px;} #thumbs img{display:block;margin:0 0 10px;cursor:pointer;} #viewer{float:left;} </style>
+
+
+
+
+
+
+
+
+  <body>
+
+    
+    
+    <script>
+      //FB init
+      window.fbAsyncInit = function() {
+            FB.init({
+              appId      : '1540266652906524',
+              xfbml      : true,
+              version    : 'v2.2'
+            });
+          };
+          (function(d, s, id){
+             var js, fjs = d.getElementsByTagName(s)[0];
+             if (d.getElementById(id)) {return;}
+             js = d.createElement(s); js.id = id;
+             js.src = "//connect.facebook.net/en_US/sdk.js";
+             fjs.parentNode.insertBefore(js, fjs);
+           }(document, 'script', 'facebook-jssdk'));
+
+
+    </script>
+    <header>
+        <h1 layout vertical center id = "headline">Facebook Fanpage Photo Loader</h1>
+        <a layout vertical center href = "yokkoy.html">
+          <button > HOME </button>
+        </a>
+
+        <div layout vertical center id = "enterfbpagename" >
+          Facebook.com/<input id = "fbname" type="text"  placeholder = "ENTER PAGE NAME" onkeypress = "keyp(event)">
+
+          <input id = "clickfbpagename" type="button" value="LOAD ALBUMS">
+          <button>
+            YOKKOY
+          </button>
+        </div>
+
+        <div layout vertical center id = "table">
+          <table  id="Albums" width = "50%">
+          </table>
+        </div>
+
+        <script>
+        $( "#clickfbpagename" ).click(function( ) {
+            fbpagename();
+            
+          });
+        function keyp(e){
+          if(e.which ==13){
+            fbpagename()
+          }
+        }
+          function fbpagename(){
+            fbname1 = document.getElementById('fbname').value
+            fbnameinput(fbname1)
+            alert("loading albums from FACEBOOK.com/" + fbname1)
+            loaddefault()
+          };
+        </script>
+      </header>
+    <script>
+    
+    function fbnameinput(fbname){
+      loadd(fbname)
+    }
+
+    function loadd(fbname1){
+      $.get("https://graph.facebook.com/"+fbname1+"/albums",
+                function (response) {
+
+                  var photo = document.createElement("h1")
+                  $("#headline").html("")
+                  photo.innerHTML = "Facebook Fanpage Photo Loader | "+fbname1+" | Albums  "
+                  $("#headline").append(photo)
+                  
+
+                  $("#Albums").show();
+                  console.log(response)
+
+                  if (response && !response.error) {
+                      //listTables(response.data);
+                    // albums loaded as array, try to show this data in table
+                    // set class name for each row
+                    // set album-id as HTML attribute for each row
+                      makeTables(response.data)
+                  }
+              }
+            )
+    }
+    </script>
+    <!--<script>
+      //listen to button
+      /*$("#login").click(function login(){
+        FB.login(function(response) {
+          console.log(response);
+          console.log("successfully login")
+          //user login successfully, do something?
+          $("#showalbum").show()
+          $("#login").hide()
+        },{
+          scope: 'user_photos',
+          return_scopes: true,
+          enable_profile_selector: true
+        });
+      })
+    </script>
+    <script>
+      //Showalbum
+      /*$("#showalbum").click(function showalbum( ){
+        load()
+       var photo = document.createElement("h1")
+
+              $("#headline").html("")
+              photo.innerHTML = "Yokkoy Handsome Photo Loader | Albums "
+              $("#headline").append(photo)
+              $("#Albums").show();
+
+        console.log("Loading Albums")
+
+        $.get("https://graph.facebook.com/"+fbnameinput()+"/albums",
+                function (response) {
+                  $("#Albums").show();
+                  console.log(response)
+                  if (response && !response.error) {
+                      //listTables(response.data);
+                    // albums loaded as array, try to show this data in table
+                    // set class name for each row
+                    // set album-id as HTML attribute for each row
+                      makeTables(response.data)
+                  }
+                }
+            )
+    })*/
+    </script> -->
+    
+    <script>
+        //display table of data
+        function makeTables(data){
+            console.log("MAKE TABLE")
+            $("#Albums").append("<tr> <td><h2> NAME</h2> </td> <td><h2> PHOTOS </h2></td> </tr>")
+            $.each(data, function(index, element) {
+              $("#Albums").append("<tr><td class = "+element.id+" > "+element.name+"     </td><td>"+element.count+" Photos </td><tr>")
+              $("."+element.id).click(function() {
+                console.log(element)
+                console.log(element.name)
+                console.log(element.id)
+                
+                $(".container").html('')
+                loadpic(element.id, element.name)
+                    $("#Albums").html('')    
+                });
+            });
+            console.log("DONE MAKE TABLE")
+        }
+    </script>
+    <script>
+        function loadpic( album_id, name ){
+              var photo = document.createElement("h1")
+              $("#headline").html("")
+              photo.innerHTML = "Facebook Fanpage Photo Loader | Albums | "+ name 
+              $("#headline").append(photo)
+          $.get("https://graph.facebook.com/"+album_id+"/photos",
+            function (response) {
+              console.log("Response = ")
+              console.log(response)
+
+              if (response && !response.error) {
+                  $.each(response, function(index, element){
+
+                    $.each(element, function(k,item){
+                      if(item.source != null){
+                        showpic(item.source, item.id);
+                        viewonfb(item.link);
+                        anchorthem(item.source);
+                        manylikes(item.id);
+                        likebar(item.id);
+                        writename(item.name, item.id);
+                        linebar();
+                      }
+                    })
+                    sortlike(element.id)
+                  })
+                }
+                
+              })
+          }
+
+          /*FB.api(
+            "/"+ album_id +"/photos",
+            function (response) {
+              console.log("Response = ")
+              console.log(response)
+              if (response && !response.error) {
+                  
+                  $.each(response, function(index, element){
+                    $.each(element, function(k,item){
+                      //console.log("index = ")
+                      //console.log(k)
+                      console.log("item = ")
+                      console.log(item)
+                      //console.log("item source = ")
+                      //console.log(item.source)
+                      //console.log("Likes = ")
+                      //console.log(item.likes.data.length)
+                      //console.log("likes = ")
+                      //console.log(item)
+                      //sortlike(item, mostlikes);
+                      //pthem(item.source);
+                      showpic(item.source, item.id);
+                      viewonfb(item.link);
+                      anchorthem(item.source);
+                      manylikes(item.id);
+                      writename(item.name, item.id);
+                      likebar(item.id);
+                      if(item.likes.data.length > mostlikes){
+                        mostlikes = item.likes.data.length
+                        mostlikesname = item.name
+                      }//else {console.log("NO")}
+                      console.log("most likes = ")
+                      console.log(mostlikes)
+                      console.log("Most likes Post is ")
+                      console.log(mostlikesname)
+                    })
+                  })
+                // photos loaded as array
+                // each photo response contain many sizes of one photo.
+                // Pick one and show it in image tag
+              }
+            }
+          )*/
+    </script>
+    <script>
+     function sortlike(albumid){
+         console.log($("h3"))
+      }
+    </script>
+    <script>
+      function viewonfb(link){
+        if(link!=null){
+          var atag = document.createElement("a")
+          atag.class = "atag2"
+          atag.href = link
+          atag.innerHTML = "VIEW ON FACEBOOK    "
+          $(".container").append(atag)
+        }
+      }
+      function anchorthem(link){
+        if(link!=null){
+          var atag = document.createElement("a")
+          atag.class = "atag"
+          atag.href = link
+          atag.innerHTML = "SOURCE LINK"
+          $(".container").append(atag)
+        }
+      }
+      function manylikes(id){
+              var getlike = 0 ;
+              getlike.id = "getlike"
+              var result = null;
+              $.get(
+                "https://graph.facebook.com/" +id+ "?type=post&fields=id,name,likes.limit(1).summary(true)",
+                  function (likes){
+                    getlike = likes.likes.summary.total_count;
+                    writelikes(getlike, id)
+                  }
+                );
+              console.log("result")
+              console.log(getlike)    
+            }
+    </script>
+
+    <script>
+      function writelikes(like, id){
+                  var htree = document.createElement("h3")
+                  // = "htree"
+                  htree.innerHTML = like + " peoples like this"
+                  $("#"+id).append(htree)
+      }
+    </script>
+    
+    <script>
+
+    function showpic(source, id){
+
+        //console.log(source)
+          if(source!= null){
+            var img = document.createElement("img")
+            img.src = source
+            $(".container").append(img)
+            console.log("Drawing")
+            //img.id = id
+            //img.class = "image"
+            //img.id = "image"
+            //img.max-height = 50
+            //img.width = "50px"
+            //document.body.appendChild(container)
+            //$(".container").append.innerHTML("################")
+            //$("#Pictures").append("<tr><td><img src = "source"></td><tr>")
+          }
+    }
+    </script>
+    <script>
+      function writename(name, id){
+            if(name != null){
+              var h2 = document.createElement("h2")
+              h2.innerHTML = "Description : <br>" + name
+              $(".container").append(h2)
+            }else{
+              name = ""
+              var h2 = document.createElement("h2")
+              h2.innerHTML = name
+              $(".container").append(h2)
+            }
+      }
+      function likebar(id){
+
+            var dive = document.createElement("div")
+            dive.id = id
+            $(".container").append(dive)
+            
+      }
+      function linebar(){
+            line = "________________________________________"
+            var h2 = document.createElement("h2")
+            h2.innerHTML = line
+            $(".container").append(h2)
+      }
+    </script>
+      <core-header-panel >
+        <core-toolbar layout vertical center>
+          <paper-tabs id="tabs" selected="all" self-end>
+            <paper-tab name="all" id = "papertab">Photo Loader</paper-tab>
+          </paper-tabs> 
+        </core-toolbar>
+
+      <!-- main page content will go here -->
+        <div layout vertical center class = "container">
+                <div class="fb-like-box" id = "fb-like-box" data-href="https://www.facebook.com/yokhandsome" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true">
+                </div>
+        </div>
+      </core-header-panel>
+
+      <footer>
+        <p>&copy; 2015 Supasit Tanapatpiboon.</p>
+      </footer>
+    <script>
+      var tabs = document.querySelector('paper-tabs');
+      tabs.addEventListener('core-select', function() {
+        console.log("Selected: " + tabs.selected);
+      });
+    </script>
+  </body>
+</html>
