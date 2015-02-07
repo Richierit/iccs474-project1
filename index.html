@@ -127,6 +127,9 @@
       #Albums{
         background-color: white;
       }
+      .spinner-layer green{
+
+      }
 </style>
   </head>
 <body>
@@ -159,7 +162,6 @@
                 function (response) {
                  $("#Albums").show();
                   console.log(response)
-
                   if (response && !response.error) {
                       //listTables(response.data);
                     // albums loaded as array, try to show this data in table
@@ -255,6 +257,7 @@
          console.log($("h3"))
       }
     </script>
+    
     <script>
       function viewonfb(link){
         if(link!=null){
@@ -296,7 +299,27 @@
                   $("#"+id).append(htree)
       }
     </script>
+
+    <div class="fb-like" data-href="https://facebook.com/yokhandsome" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
+    
     <script>
+    /*
+    function likeshare(source, id){
+      alert(source, id)
+      var likeshare = document.createElement("div")
+      likeshare.id = id+"likeshare"
+      $("#"+id+"likeshare").attr({
+        href: source,
+        layout: "button",
+        action: "like",
+        show_faces: true,
+        share: true,
+      })
+
+      $(".container").append(likeshare)
+
+    }*/
+
     function showpic(source, id){
 
           if(source!= null){
@@ -320,13 +343,14 @@
               $(".container").append(h2)
             }
       }
-      function likebar(id){
 
+      function likebar(id){
             var dive = document.createElement("div")
             dive.id = id
             $(".container").append(dive)
             
       }
+
       function linebar(){
             line = "________________________________________"
             var h2 = document.createElement("h2")
@@ -348,6 +372,7 @@
           <div id ="headline"class = "core-header">Facebook Fanpage Photo Loader</div>
           <paper-button id = "seemore"><core-icon icon = "forward"> </core-icon>SEE MORE 
           </paper-button>
+                  
         </core-toolbar>
         <!--INPUT BOX-->
         <div id = "enterfbpagename" horizontal layout center>
@@ -364,6 +389,7 @@
         </div>
           <!-- main page content will go here -->
           <!-- container for button created for page content-->
+          
           <div layout vertical center class = "container">
             <section>
               <core-selector layout vertical center id = "Albums">
@@ -371,6 +397,7 @@
               </core-selector>
             </section>
           <div class="fb-like-box" id = "fb-like-box" data-href="https://www.facebook.com/yokhandsome" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true">
+
           </div>
         </div>
       </core-header-panel>
