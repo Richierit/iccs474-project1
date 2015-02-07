@@ -25,6 +25,8 @@
       <link rel ="import" href = "../bower_components/paper-button/paper-button.html">
       <link rel ="import" href = "../bower_components/paper-input-master/paper-input.html">
       <link rel ="import" href = "../bower_components/core-header-panel/core-header-panel.html">
+      <link rel ="import" href = "../bower_components/core-selector/core-selector.html">
+      <link rel ="import" href = "../bower_components/paper-item/paper-item.html">
 
       
       <!--JQUERY-->
@@ -33,11 +35,7 @@
       <!--BOOTSTRAP-->
       <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
-
-      
-      
-  </head>
-  <style>
+<style>
       html,body {
         height: 100%;
         margin: 0;
@@ -66,6 +64,11 @@
         color: white;
         text-decoration: bold;
       }
+      #seemore{
+        text-align: right;
+        background-color: white;
+        color: #5882FA;
+      }
       paper-button{
         padding: 10px;
         margin-top: 10px;
@@ -84,35 +87,57 @@
           width: 200px;
         }
       }
-      h3 {
-        color: red;
-      }
+      
       #clickfbpagename {
         background: #2E64FE;
         color: white;
+        float:center;
       }
       #enterfbpagename {
-          background-color:#eeeeee;
+          margin: 20px;
+          margin-right: 20px;
+          margin-left: 20px;
+          background-color:#D8D8D8;
+          float:center;
+          text-align: center;
+          padding:5px; 
+      }
+      #enterfbpagenamebox{
+        width: 200px;
+        text-align: center;
+        float:center;
+        padding:5px; 
+      }
+      #homey{
+        background-color:#58FAAC;
           text-align: center;
           float:center;
           padding:5px; 
       }
-      
-      #homey{
-        background-color:#eeeeee;
-          text-align: center;
-          float:left;
-          padding:5px; 
-      }
       #home{
-        color:black;
+        color:white;
       }
       #homebutton{
-        background-color: #E6E6E6;
+        background-color: #2E64FE;
+      }
+      img{
+      margin: 20px;
+          margin-right: 20px;
+          margin-left: 20px;
+          background-color:#D8D8D8;
+      }
+      h3 {
+        color: red;
+          background-color:#D8D8D8;
+      }
+      #Albums{
+        background-color: white;
       }
 </style>
-<style type='text/css'> #thumbs{float:left;width:200px;} #thumbs img{display:block;margin:0 0 10px;cursor:pointer;} #viewer{float:left;} </style>
-
+      
+      
+  </head>
+  
 
   <body>
 
@@ -150,10 +175,7 @@
     function loadd(fbname1){
       $.get("https://graph.facebook.com/"+fbname1+"/albums",
                 function (response) {
-
-                  
-
-                  $("#Albums").show();
+                 $("#Albums").show();
                   console.log(response)
 
                   if (response && !response.error) {
@@ -172,10 +194,9 @@
         //display table of data
         function makeTables(data){
             console.log("MAKE TABLE")
-            $("#Albums").append("<tr> <td><h2> NAME</h2> </td> <td><h2> PHOTOS </h2></td> </tr>")
-
+            $("#Albumsheader").append("ALBUMS")
             $.each(data, function(index, element) {
-              $("#Albums").append("<tr><td class = "+element.id+" > "+element.name+"     </td><td>"+element.count+" Photos </td><tr>")
+              $("#Albums").append("<paper-item class = "+element.id+"> "+element.name+"("+element.count+" Photos )</paper-item>")
               $("."+element.id).click(function() {
                 console.log(element)
                 console.log(element.name)
@@ -192,14 +213,12 @@
     <script>
         function loadpic( album_id, name ){
               var photo = document.createElement("core-header-panel")
-
-
-
-          $.get("https://graph.facebook.com/"+album_id+"/photos",
+          $.get("https://graph.facebook.com/"+album_id+"/photos?limit=50",
             function (response) {
               console.log("Response = ")
               console.log(response)
-
+              console.log(response.paging.next)
+              next1(response.paging.next)
               if (response && !response.error) {
                   $.each(response, function(index, element){
 
@@ -217,9 +236,39 @@
                     sortlike(element.id)
                   })
                 }
-                
               })
           }
+    </script>
+
+    <script>
+    function next1(next){
+      var next2 = next
+      $("#seemore").click(function seemore(){
+        var next3 = next2
+        $.get(next ,
+            function (response) {
+              console.log("Response = ")
+              console.log(response)
+
+              if (response && !response.error) {
+                  $.each(response, function(index, element){
+                    $.each(element, function(k,item){
+                      if(item.source != null){
+                        showpic(item.source, item.id);
+                        viewonfb(item.link);
+                        anchorthem(item.source);
+                        manylikes(item.id);
+                        likebar(item.id);
+                        writename(item.name, item.id);
+                        linebar();
+                      }
+                    })
+                    sortlike(element.id)
+                  })
+                }
+              })
+      })
+    }
     </script>
     <script>
      function sortlike(albumid){
@@ -232,7 +281,7 @@
           var atag = document.createElement("a")
           atag.class = "atag2"
           atag.href = link
-          atag.innerHTML = "VIEW ON FACEBOOK    "
+          atag.innerHTML = "VIEW ON FACEBOOK"
           $(".container").append(atag)
         }
       }
@@ -310,13 +359,15 @@
             $(".container").append(h2)
       }
     </script>
-      <core-header-panel >
+      <core-header-panel layout vertical center>
       
         
         <core-toolbar>
-        <paper-icon-button icon = "face"> </paper-icon-button>
-        <paper-icon-button icon = "book"> </paper-icon-button>
-        <div id ="headline"class = "core-header">Facebook Fanpage Photo Loader</div>
+          <paper-icon-button icon = "face"> </paper-icon-button>
+          <paper-icon-button icon = "book"> </paper-icon-button>
+          <div id ="headline"class = "core-header">Facebook Fanpage Photo Loader</div>
+          <paper-button id = "seemore"><core-icon icon = "forward"> </core-icon>SEE MORE 
+          </paper-button>
         </core-toolbar>
 
         <div id = "homey">
@@ -326,22 +377,34 @@
           </paper-button>
           </a>
         </div>
-        <div id = "enterfbpagename" >
-          https://www.facebook.com/<paper-input id = "fbname" type="text"  label = "ENTER PAGE NAME" onkeypress = "keyp(event)"></paper-input>
-          <!--<input id = "clickfbpagename" type="button" value="LOAD ALBUMS">-->
-          <paper-button id = "clickfbpagename"class = "colored" > 
-          <core-icon icon="check"></core-icon>
-          LOAD ALBUMS
-          </paper-button>
-        </div>
 
-      <!-- main page content will go here -->
-        <div layout vertical center class = "container">
+        <!--INPUT BOX-->
+        <div id = "enterfbpagename" layout vertical center>
+           https://www.facebook.com/
+           <paper-input-decorator  id = "enterfbpagenamebox" error="input is required" label = "ENTER PAGE NAME" autovalidate = "" layout = "" class="" focused="" type="text"  placeholder = "" >
+              <input is = "core-input" required = "" placeholder = "" id = "fbname" onkeypress = "keyp(event)">
+            </paper-input-decorator>
+            <p>Example : 9gag , yokhandsome , microsoft , minecraft , facebook </p>
+            <paper-button id = "clickfbpagename"class = "colored" > 
+              <core-icon icon="check"></core-icon> LOAD ALBUMS
+            </paper-button>
+        </div>
+        <!--
           <div layout vertical center id = "table">
             <table  id="Albums" width = "50%">
             </table>
-          </div>
-                <div class="fb-like-box" id = "fb-like-box" data-href="https://www.facebook.com/yokhandsome" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true">
+          </div>-->
+          <!-- main page content will go here -->
+          <!-- container for button created for page content-->
+          <div layout vertical center class = "container">
+            <section>
+              <core-selector layout vertical center id = "Albums">
+                <h2 id = "Albumsheader">
+                  
+                </h2>
+              </core-selector>
+            </section>
+          <div class="fb-like-box" id = "fb-like-box" data-href="https://www.facebook.com/yokhandsome" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true">
                 </div>
         </div>
       </core-header-panel>
