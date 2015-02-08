@@ -22,10 +22,14 @@
       <link rel ="import" href = "../bower_components/core-header-panel/core-header-panel.html">
       <link rel ="import" href = "../bower_components/core-selector/core-selector.html">
       <link rel ="import" href = "../bower_components/paper-item/paper-item.html">
+      <link rel="import" href="../bower_components/core-drag-drop/core-drag-drop.html">
+
       <!--JQUERY-->
       <script src = "http://code.jquery.com/jquery-1.11.2.min.js" type = "text/javascript" charset = "utf-8">
       </script>
-      <!--BOOTSTRAP-->
+      <!--BOOTSTRAP
+       <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+       -->
      
 <style>
       html,body {
@@ -127,8 +131,19 @@
       #Albums{
         background-color: white;
       }
-      .spinner-layer green{
-
+      .box {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        margin: 16px;
+        text-align: horizontal center;
+      }
+      #drop{
+        text-align: horizontal center;
+      }
+      #containerheader{
+        color: black;
+        padding: 55px;
       }
 </style>
   </head>
@@ -157,7 +172,7 @@
       
     }
     function loadd(fbname1){
-      $.get("https://graph.facebook.com/"+fbname1+"/albums",
+      $.get("https://graph.facebook.com/"+fbname1+"/albums?limit=50",
                 function (response) {
                   $("#Albums").show();
                   $("#fb-like-box").show();
@@ -167,7 +182,7 @@
                     // albums loaded as array, try to show this data in table
                     // set class name for each row
                     // set album-id as HTML attribute for each row
-                      makeTables(response.data)
+                      makeTables(response.data,fbname1)
                   }
               }
             )
@@ -175,9 +190,12 @@
     </script>    
     <script>
         //display table of data
-        function makeTables(data){
+        function makeTables(data,fbname1){
             console.log("MAKE TABLE")
-            $("#Albumsheader").append("ALBUMS")
+            var albumsheader = document.createElement("h2")
+            albumsheader.class = "Albumsheader"
+            albumsheader.innerHTML = fbname1
+            $("#Albums").append(albumsheader)
             $.each(data, function(index, element) {
               $("#Albums").append("<paper-item class = "+element.id+"> "+element.name+"("+element.count+" Photos )</paper-item>")
               $("."+element.id).click(function() {
@@ -194,16 +212,25 @@
         }
     </script>
     <script>
-        function loadpic( album_id, name ){
-              var photo = document.createElement("core-header-panel")
+        function loadpic( album_id, name ){  
           $.get("https://graph.facebook.com/"+album_id+"/photos?limit=50",
             function (response) {
               console.log("Response = ")
               console.log(response)
               console.log(response.paging.next)
               next1(response.paging.next)
+
+              var albumsheader = document.createElement("h2")
+              albumsheader.id = "containerheader"
+              albumsheader.innerHTML = name
+              $(".container").append(albumsheader)
+
+
               if (response && !response.error) {
                   $.each(response, function(index, element){
+
+                    
+
 
                     $.each(element, function(k,item){
                       if(item.source != null){
@@ -355,7 +382,7 @@
            <paper-input-decorator flex self-center id = "enterfbpagenamebox" error="input is required" label = "ENTER PAGE NAME" autovalidate = "" layout = "" class="" focused="" type="text"  placeholder = "" >
               <input flex self-center is = "core-input" required = "" placeholder = "" id = "fbname" onkeypress = "keyp(event)">
             </paper-input-decorator>
-            <div flex self-center>Example : 9gag , yokhandsome , microsoft , minecraft , facebook </div>
+         <div flex self-center>Example : 9gag , yokhandsome , microsoft , minecraft , facebook </div>
         </div>
         <div id = "enterfbpagenamebutton">
           <paper-button id = "clickfbpagename"class = "colored" > 
@@ -364,15 +391,73 @@
         </div>
           <!-- main page content will go here -->
           <!-- container for button created for page content-->
-          <div layout vertical center class = "container">
+          <div layout vertical center class = "container"> 
             <section>
               
                 <core-selector layout vertical center id = "Albums">
-                  <h2 id = "Albumsheader"></h2>
+                  
+                  
                 </core-selector>
-            <section>
 
-    </section>
+                <core-item id = "Try Drag" horizontal layout end ><core-icon icon = "arrow-drop-down"></core-icon>TRY DRAG THESE BOXES ONTO THE BIGGER BOX
+                  </core-item>
+                    
+                
+
+
+
+
+
+
+
+            <section layout  center>
+            
+              <div style="border: 1px dotted silver; -webkit-user-select: none;" touch-action="none">
+              <core-drag-drop></core-drag-drop>
+              <div class="box" style="background-color: black; color: white" draggable="false">9gag</div>
+              <div class="box" style="background-color: orange;" draggable="false">yokhandsome</div>
+              <div class="box" style="background-color: #BADA55;" draggable="false">microsoft</div>
+            
+              <div class="box" style="background-color: #3ADF00; color: black;" draggable="false">minecraft</div>
+              <div class="box" style="background-color: #3b5998; color: white" draggable="false">facebook</div>
+              <div class="box" style="background-color: white; color: black;" draggable="false">trapstyle</div>
+
+              </div>
+            <div id="drop" class="box" style="border: 3px solid silver; position: relative; width: 775px; height: 250px;" draggable="false">DROP here</div>
+            <script>
+              addEventListener('drag-start', function(e) {
+                var dragInfo = e.detail;
+                // flaw #2: e vs dragInfo.event
+                var color = dragInfo.event.target.style.backgroundColor;
+                console.log(dragInfo)
+                console.log (dragInfo.event.target.innerHTML);
+                dragInfo.avatar.style.cssText = 'border: 3px solid '+ color +'; width: 32px; height: 32px; border-radius: 32px; background-color: whitesmoke';
+                console.log(dragInfo.avatar.innerHTML)
+                dragInfo.avatar.innerHTML = dragInfo.event.target.innerHTML
+                dragInfo.drag = function() {
+                  console.log("DRAGING")
+                };
+                dragInfo.drop = drop;
+              });
+              //
+              function drop(dragInfo) {
+                var color = dragInfo.avatar.style.borderColor;
+                var dropTarget = dragInfo.event.relatedTarget;
+                if (color && dropTarget.id === 'drop') {
+                  console.log(dropTarget)
+                  var d = document.createElement('div');
+                  d.className = 'dropped';
+                  d.innerHTML = dragInfo.event.target.innerHTML
+                  dropTarget.appendChild(d);
+                  dropTarget.style.backgroundColor = color;
+                  fbnameinput(dragInfo.event.target.innerHTML)
+                }
+              }
+            </script>
+            <core-drag-avatar style="border: 3px solid; width: 32px; height: 32px; border-radius: 32px; -webkit-transform: translate(630px, 44px); transform: translate(630px, 44px); display: none; background-color: rgb(245, 245, 245);"><div id="hello">Hello World</div></core-drag-avatar>
+
+            </section>
+
             </section>
           <div class="fb-like-box" id = "fb-like-box" data-href="https://www.facebook.com/yokhandsome" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true">
           </div>
