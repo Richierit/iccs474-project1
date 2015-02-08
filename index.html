@@ -26,7 +26,7 @@
       <script src = "http://code.jquery.com/jquery-1.11.2.min.js" type = "text/javascript" charset = "utf-8">
       </script>
       <!--BOOTSTRAP-->
-      <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+     
 <style>
       html,body {
         height: 100%;
@@ -154,13 +154,13 @@
     <script>
     function fbnameinput(fbname){
       loadd(fbname)
-      $("Albums").show();
+      
     }
-
     function loadd(fbname1){
       $.get("https://graph.facebook.com/"+fbname1+"/albums",
                 function (response) {
-                 $("#Albums").show();
+                  $("#Albums").show();
+                  $("#fb-like-box").show();
                   console.log(response)
                   if (response && !response.error) {
                       //listTables(response.data);
@@ -172,8 +172,7 @@
               }
             )
     }
-    </script>
-    
+    </script>    
     <script>
         //display table of data
         function makeTables(data){
@@ -185,10 +184,10 @@
                 console.log(element)
                 console.log(element.name)
                 console.log(element.id)
-                
-                $(".container").html('')
+                $("#Albums").hide();
+                $("#fb-like-box").hide();
                 loadpic(element.id, element.name)
-                    $("#Albums").html('')    
+                   // $("#Albums").html('')    
                 });
             });
             console.log("DONE MAKE TABLE")
@@ -257,7 +256,6 @@
          console.log($("h3"))
       }
     </script>
-    
     <script>
       function viewonfb(link){
         if(link!=null){
@@ -299,11 +297,8 @@
                   $("#"+id).append(htree)
       }
     </script>
-    
     <script>
-
     function showpic(source, id){
-
           if(source!= null){
             var img = document.createElement("img")
             img.src = source
@@ -332,7 +327,6 @@
             $(".container").append(dive)
             
       }
-
       function linebar(){
             line = "________________________________________"
             var h2 = document.createElement("h2")
@@ -353,8 +347,7 @@
           <paper-icon-button icon = "book"> </paper-icon-button>
           <div id ="headline"class = "core-header">Facebook Fanpage Photo Loader</div>
           <paper-button id = "seemore"><core-icon icon = "forward"> </core-icon>SEE MORE 
-          </paper-button>
-                  
+          </paper-button>     
         </core-toolbar>
         <!--INPUT BOX-->
         <div id = "enterfbpagename" horizontal layout center>
@@ -371,15 +364,17 @@
         </div>
           <!-- main page content will go here -->
           <!-- container for button created for page content-->
-          
           <div layout vertical center class = "container">
             <section>
-              <core-selector layout vertical center id = "Albums">
-                <h2 id = "Albumsheader"></h2>
-              </core-selector>
+              
+                <core-selector layout vertical center id = "Albums">
+                  <h2 id = "Albumsheader"></h2>
+                </core-selector>
+            <section>
+
+    </section>
             </section>
           <div class="fb-like-box" id = "fb-like-box" data-href="https://www.facebook.com/yokhandsome" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true">
-
           </div>
         </div>
       </core-header-panel>
