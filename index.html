@@ -169,7 +169,6 @@
     <script>
     function fbnameinput(fbname){
       loadd(fbname)
-      
     }
     function loadd(fbname1){
       $.get("https://graph.facebook.com/"+fbname1+"/albums?limit=50",
@@ -194,7 +193,8 @@
             console.log("MAKE TABLE")
             var albumsheader = document.createElement("h2")
             albumsheader.class = "Albumsheader"
-            albumsheader.innerHTML = fbname1
+
+            albumsheader.innerHTML = fbname1 
             $("#Albums").append(albumsheader)
             $.each(data, function(index, element) {
               $("#Albums").append("<paper-item class = "+element.id+"> "+element.name+"("+element.count+" Photos )</paper-item>")
@@ -204,7 +204,7 @@
                 console.log(element.id)
                 $("#Albums").hide();
                 $("#fb-like-box").hide();
-                loadpic(element.id, element.name)
+                loadpic(element.id, element.name, element.count)
                    // $("#Albums").html('')    
                 });
             });
@@ -212,27 +212,20 @@
         }
     </script>
     <script>
-        function loadpic( album_id, name ){  
+        function loadpic( album_id, name, count ){  
           $.get("https://graph.facebook.com/"+album_id+"/photos?limit=50",
             function (response) {
               console.log("Response = ")
               console.log(response)
               console.log(response.paging.next)
               next1(response.paging.next)
-
               var albumsheader = document.createElement("h2")
               albumsheader.id = "containerheader"
-              albumsheader.innerHTML = name
+              albumsheader.innerHTML = name + " (" + count + "photos)"
               $(".container").append(albumsheader)
-
-
               if (response && !response.error) {
                   $.each(response, function(index, element){
-
-                    
-
-
-                    $.each(element, function(k,item){
+                   $.each(element, function(k,item){
                       if(item.source != null){
                         showpic(item.source, item.id);
                         viewonfb(item.link);
@@ -256,6 +249,7 @@
         var next3 = next2
         $.get(next ,
             function (response) {
+              next1(response.paging.next)
               console.log("Response = ")
               console.log(response)
               if (response && !response.error) {
@@ -393,35 +387,20 @@
           <!-- container for button created for page content-->
           <div layout vertical center class = "container"> 
             <section>
-              
                 <core-selector layout vertical center id = "Albums">
-                  
-                  
                 </core-selector>
-
                 <core-item id = "Try Drag" horizontal layout end ><core-icon icon = "arrow-drop-down"></core-icon>TRY DRAG THESE BOXES ONTO THE BIGGER BOX
                   </core-item>
-                    
-                
-
-
-
-
-
-
-
             <section layout  center>
-            
               <div style="border: 1px dotted silver; -webkit-user-select: none;" touch-action="none">
               <core-drag-drop></core-drag-drop>
-              <div class="box" style="background-color: black; color: white" draggable="false">9gag</div>
-              <div class="box" style="background-color: orange;" draggable="false">yokhandsome</div>
-              <div class="box" style="background-color: #BADA55;" draggable="false">microsoft</div>
-            
-              <div class="box" style="background-color: #3ADF00; color: black;" draggable="false">minecraft</div>
-              <div class="box" style="background-color: #3b5998; color: white" draggable="false">facebook</div>
-              <div class="box" style="background-color: white; color: black;" draggable="false">trapstyle</div>
-
+              <img class="box" style="background-color: black;"
+              src="../logo/9gag.png"  draggable="false" value = "9gag"></img>
+              <img class="box" style="background-color: orange;"src="../logo/yokhandsome.png" draggable="false" name = "yokhandsome" ></img>
+              <img class="box" style="background-color: #BADA55;"src="../logo/microsoft.jpg" draggable="false" name = "microsoft"></img>
+              <img class="box" style="background-color: #3ADF00;"src="../logo/minecraft.jpg" draggable="false" name = "minecraft"></img>
+              <img class="box" style="background-color: #3b5998;"src="../logo/facebook.png" draggable="false" name = "facebook"></img>
+              <img class="box"  style="background-color: white;"src="../logo/trapstyle.png" draggable="false" name = "trapstyle"></img>
               </div>
             <div id="drop" class="box" style="border: 3px solid silver; position: relative; width: 775px; height: 250px;" draggable="false">DROP here</div>
             <script>
@@ -430,10 +409,10 @@
                 // flaw #2: e vs dragInfo.event
                 var color = dragInfo.event.target.style.backgroundColor;
                 console.log(dragInfo)
-                console.log (dragInfo.event.target.innerHTML);
+                console.log (dragInfo.event.target.name);
                 dragInfo.avatar.style.cssText = 'border: 3px solid '+ color +'; width: 32px; height: 32px; border-radius: 32px; background-color: whitesmoke';
                 console.log(dragInfo.avatar.innerHTML)
-                dragInfo.avatar.innerHTML = dragInfo.event.target.innerHTML
+                dragInfo.avatar.innerHTML = dragInfo.event.target.name
                 dragInfo.drag = function() {
                   console.log("DRAGING")
                 };
@@ -447,17 +426,15 @@
                   console.log(dropTarget)
                   var d = document.createElement('div');
                   d.className = 'dropped';
-                  d.innerHTML = dragInfo.event.target.innerHTML
+                  d.innerHTML = dragInfo.event.target.name
                   dropTarget.appendChild(d);
                   dropTarget.style.backgroundColor = color;
-                  fbnameinput(dragInfo.event.target.innerHTML)
+                  fbnameinput(dragInfo.event.target.name)
                 }
               }
             </script>
             <core-drag-avatar style="border: 3px solid; width: 32px; height: 32px; border-radius: 32px; -webkit-transform: translate(630px, 44px); transform: translate(630px, 44px); display: none; background-color: rgb(245, 245, 245);"><div id="hello">Hello World</div></core-drag-avatar>
-
             </section>
-
             </section>
           <div class="fb-like-box" id = "fb-like-box" data-href="https://www.facebook.com/yokhandsome" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true">
           </div>
