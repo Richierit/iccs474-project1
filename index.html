@@ -23,14 +23,12 @@
       <link rel ="import" href = "../bower_components/core-selector/core-selector.html">
       <link rel ="import" href = "../bower_components/paper-item/paper-item.html">
       <link rel="import" href="../bower_components/core-drag-drop/core-drag-drop.html">
-
       <!--JQUERY-->
       <script src = "http://code.jquery.com/jquery-1.11.2.min.js" type = "text/javascript" charset = "utf-8">
       </script>
       <!--BOOTSTRAP
        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
        -->
-     
 <style>
       html,body {
         height: 100%;
@@ -143,11 +141,13 @@
       }
       #containerheader{
         color: black;
+        size: 100;
         padding: 55px;
       }
 </style>
   </head>
 <body>
+
    <script>
       //FB init
       window.fbAsyncInit = function() {
@@ -192,8 +192,7 @@
         function makeTables(data,fbname1){
             console.log("MAKE TABLE")
             var albumsheader = document.createElement("h2")
-            albumsheader.class = "Albumsheader"
-
+            albumsheader.className = "Albumsheader"
             albumsheader.innerHTML = fbname1 
             $("#Albums").append(albumsheader)
             $.each(data, function(index, element) {
@@ -222,6 +221,7 @@
               var albumsheader = document.createElement("h2")
               albumsheader.id = "containerheader"
               albumsheader.innerHTML = name + " (" + count + "photos)"
+              albumsheader.style.cssText = "background-color: white;"
               $(".container").append(albumsheader)
               if (response && !response.error) {
                   $.each(response, function(index, element){
@@ -233,6 +233,7 @@
                         manylikes(item.id);
                         likebar(item.id);
                         writename(item.name, item.id);
+                        sharebutton(item.id);
                         linebar();
                       }
                     })
@@ -262,6 +263,7 @@
                         manylikes(item.id);
                         likebar(item.id);
                         writename(item.name, item.id);
+                        sharebutton(item.id);
                         linebar();
                       }
                     })
@@ -273,6 +275,21 @@
     }
     </script>
     <script>
+      function sharebutton(id){
+        var pbutton = document.createElement("paper-button")
+          pbutton.id = id + "share" 
+          pbutton.style.cssText = "background-color: #3b5998; color: white"
+          pbutton.innerHTML = "SHARE ON FACEBOOK"
+          $(".container").append(pbutton)
+          $("#"+id+"share").click(function(){
+            var id2 = id
+            console.log(id2)
+            FB.ui({
+            method: 'share',
+            href: 'https://www.facebook.com/9gag/photos/'+id,
+          }, function(response){});
+          })
+      }
      function sortlike(albumid){
          console.log($("h3"))
       }
@@ -346,10 +363,14 @@
             var dive = document.createElement("div")
             dive.id = id
             $(".container").append(dive)
+
+            var dive = document.createElement("div")
+            dive.id = id+"2"
+            $(".container").append(dive)
             
       }
       function linebar(){
-            line = "________________________________________"
+            line = "______________________________________________________________________________________________________________________"
             var h2 = document.createElement("h2")
             h2.innerHTML = line
             $(".container").append(h2)
@@ -371,13 +392,14 @@
           </paper-button>     
         </core-toolbar>
         <!--INPUT BOX-->
+
         <div id = "enterfbpagename" horizontal layout center>
            <div >https://www.facebook.com/</div>
            <paper-input-decorator flex self-center id = "enterfbpagenamebox" error="input is required" label = "ENTER PAGE NAME" autovalidate = "" layout = "" class="" focused="" type="text"  placeholder = "" >
               <input flex self-center is = "core-input" required = "" placeholder = "" id = "fbname" onkeypress = "keyp(event)">
             </paper-input-decorator>
          <div flex self-center>Example : 9gag , yokhandsome , microsoft , minecraft , facebook </div>
-        </div>
+         </div>
         <div id = "enterfbpagenamebutton">
           <paper-button id = "clickfbpagename"class = "colored" > 
                 <core-icon icon="check"></core-icon> LOAD ALBUMS
@@ -386,6 +408,8 @@
           <!-- main page content will go here -->
           <!-- container for button created for page content-->
           <div layout vertical center class = "container"> 
+          <!-- Go to www.addthis.com/dashboard to customize your tools -->
+           
             <section>
                 <core-selector layout vertical center id = "Albums">
                 </core-selector>
@@ -395,7 +419,7 @@
               <div style="border: 1px dotted silver; -webkit-user-select: none;" touch-action="none">
               <core-drag-drop></core-drag-drop>
               <img class="box" style="background-color: black;"
-              src="../logo/9gag.png"  draggable="false" value = "9gag"></img>
+              src="../logo/9gag.png"  draggable="false" name = "9gag"></img>
               <img class="box" style="background-color: orange;"src="../logo/yokhandsome.png" draggable="false" name = "yokhandsome" ></img>
               <img class="box" style="background-color: #BADA55;"src="../logo/microsoft.jpg" draggable="false" name = "microsoft"></img>
               <img class="box" style="background-color: #3ADF00;"src="../logo/minecraft.jpg" draggable="false" name = "minecraft"></img>
@@ -455,7 +479,6 @@
             alert("loading albums from FACEBOOK.com/" + fbname1)
           };
         </script>
-
       <footer>
         <p>&copy; 2015 Supasit Tanapatpiboon.</p>
       </footer>
