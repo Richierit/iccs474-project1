@@ -201,7 +201,7 @@
                   )
                 
             }
-            </script> 
+    </script> 
     <script>
         //display table of data
         function makeTables(data,fbname1){
@@ -215,7 +215,6 @@
                 $("#Albums").hide();
                 $("#fb-like-box").hide();
                 loadpic(element.id, element.name, element.count)
-                   // $("#Albums").html('')    
                 });
             });
             console.log("DONE MAKE TABLE")
@@ -248,7 +247,6 @@
                         linebar();
                       }
                     })
-                    //sortlike(element.id)
                   })
                 }
               })
@@ -278,7 +276,6 @@
                         linebar();
                       }
                     })
-                    //sortlike(element.id)
                   })
                 }
               })
@@ -396,6 +393,21 @@
             $(".container").append(h2)
       }
     </script>
+    <script>
+        $( "#clickfbpagename" ).click(function( ) {
+            fbpagename();
+        });
+        function keyp(e){
+          if(e.which ==13){
+            fbpagename();
+          }
+        }
+          function fbpagename(){
+            fbname1 = document.getElementById('fbname').value
+            fbnameinput(fbname1)
+            alert("loading albums from FACEBOOK.com/" + fbname1)
+          };
+        </script>
       <core-header-panel layout vertical center>
         <core-toolbar>
           <div id = "homey">
@@ -484,21 +496,7 @@
           </div>
         </div>
       </core-header-panel>
-      <script>
-        $( "#clickfbpagename" ).click(function( ) {
-            fbpagename();
-        });
-        function keyp(e){
-          if(e.which ==13){
-            fbpagename();
-          }
-        }
-          function fbpagename(){
-            fbname1 = document.getElementById('fbname').value
-            fbnameinput(fbname1)
-            alert("loading albums from FACEBOOK.com/" + fbname1)
-          };
-        </script>
+      
       <footer>
         <p>&copy; 2015 Supasit Tanapatpiboon.</p>
       </footer>
