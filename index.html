@@ -5,9 +5,10 @@
       <title>Facebook Fanpage Photo Loader</title>
     <!-- 1. Load platform support before any code that touches the DOM. -->
       <script src="./bower_components/webcomponentsjs/webcomponents.min.js"></script>
-    <!-- 2. Load the component using an HTML Import -->
       <meta name="viewport"
         content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <!-- 2. Load the component using an HTML Import -->
+      
       </script>
       <link rel="import"
         href="../bower_components/font-roboto/roboto.html">
@@ -29,125 +30,124 @@
       <!--BOOTSTRAP
        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
        -->
-<style>
-      html,body {
-        height: 100%;
-        margin: 0;
-        background-color: #E5E5E5 ;
-        font-family: 'RobotoDraft', sans-serif;
-      }
-      core-header-panel {
-        height: 100%;
-        overflow: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-      core-toolbar {
-        background: #5882FA;
-        color: white;
-      }
-      #homey{
-          text-align: center;
-          float:center;
-          padding:55px;
-          margin-bottom: 10px;
-      }
-      #home{
-        color:white;
-      }
-      #homebutton{
-        background-color: #2E64FE;
-      }
-      #headline{
-        text-align: left;
-        width: 100%;
-        margin: 0;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        text-transform: uppercase;
-        color: white;
-        text-decoration: bold;
-      }
-      #seemore{
-        text-align: right;
-        background-color: white;
-        color: #5882FA;
-      }
-      paper-button{
-        padding: 10px;
-        margin-top: 10px;
-      }
-      #tabs {
-        width: 100%;
-        margin: 0;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        text-transform: uppercase;
-      }
-      @media (min-width: 481px) {
-        #tabs {
-          width: 200px;
-        }
-      }
-      #enterfbpagename {
+    <style>
+          html,body {
+            height: 100%;
+            margin: 0;
+            background-color: #E5E5E5 ;
+            font-family: 'RobotoDraft', sans-serif;
+          }
+          core-header-panel {
+            height: 100%;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+          }
+          core-toolbar {
+            background: #5882FA;
+            color: white;
+          }
+          #homey{
+            text-align: center;
+            float:center;
+            padding:55px;
+            margin-bottom: 10px;
+          }
+          #home{
+            color:white;
+          }
+          #homebutton{
+            background-color: #2E64FE;
+          }
+          #headline{
+            text-align: left;
+            width: 100%;
+            margin: 0;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            text-transform: uppercase;
+            color: white;
+          }
+          #seemore{
+            text-align: right;
+            background-color: white;
+            color: #5882FA;
+            padding: 0px;
+          }
+          paper-button{
+            padding: 10px;
+            margin-top: 10px;
+          }
+          #tabs {
+            width: 100%;
+            margin: 0;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            text-transform: uppercase;
+          }
+          @media (min-width: 481px) {
+            #tabs {
+              width: 200px;
+            }
+          }
+          #enterfbpagename {
+              margin: 20px;
+              margin-right: 20px;
+              margin-left: 20px;
+              background-color:#D8D8D8;
+              text-align: center;
+              padding:5px; 
+          }
+          #enterfbpagenamebox{
+            width: 200px;
+            text-align: center;
+            float:center;
+            padding:5px; 
+          }
+          #enterfbpagenamebutton{
+              text-align: center;
+              float:center;
+              padding:5px; 
+          }
+          #clickfbpagename {
+            background: #2E64FE;
+            color: white;
+            float:center;
+          }
+          img{
           margin: 20px;
-          margin-right: 20px;
-          margin-left: 20px;
-          background-color:#D8D8D8;
-          text-align: center;
-          padding:5px; 
-      }
-      #enterfbpagenamebox{
-        width: 200px;
-        text-align: center;
-        float:center;
-        padding:5px; 
-      }
-      #enterfbpagenamebutton{
-          text-align: center;
-          float:center;
-          padding:5px; 
-      }
-      #clickfbpagename {
-        background: #2E64FE;
-        color: white;
-        float:center;
-      }
-      img{
-      margin: 20px;
-          margin-right: 20px;
-          margin-left: 20px;
-          background-color:#D8D8D8;
-      }
-      h3 {
-        color: red;
-          background-color:#D8D8D8;
-      }
-      #Albums{
-        background-color: white;
-      }
-      .box {
-        display: inline-block;
-        width: 100px;
-        height: 100px;
-        margin: 16px;
-        text-align: horizontal center;
-      }
-      #drop{
-        text-align: horizontal center;
-      }
-      #containerheader{
-        color: black;
-        size: 100;
-        padding: 55px;
-      }
-</style>
+              margin-right: 20px;
+              margin-left: 20px;
+              background-color:#D8D8D8;
+          }
+          h3 {
+            color: red;
+              background-color:#D8D8D8;
+          }
+          #Albums{
+            background-color: white;
+          }
+          .box {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            margin: 16px;
+            text-align: horizontal center;
+          }
+          #drop{
+            text-align: horizontal center;
+          }
+          #containerheader{
+            color: black;
+            size: 100;
+            padding: 55px;
+          }
+    </style>
   </head>
 <body>
-
    <script>
       //FB init
       window.fbAsyncInit = function() {
@@ -165,13 +165,14 @@
              fjs.parentNode.insertBefore(js, fjs);
            }(document, 'script', 'facebook-jssdk'));
     </script>
-    <header></header>
     <script>
     function fbnameinput(fbname){
-      loadd(fbname)
+      writehead(fbname)
+      
     }
     function loadd(fbname1){
       $.get("https://graph.facebook.com/"+fbname1+"/albums?limit=50",
+        
                 function (response) {
                   $("#Albums").show();
                   $("#fb-like-box").show();
@@ -186,15 +187,25 @@
               }
             )
     }
-    </script>    
+    </script>   
+    <script>
+    function writehead(fbname1){
+                $.get("https://graph.facebook.com/"+fbname1+"?type=page&fields=likes",
+                    function (response){
+                      var albumsheader = document.createElement("h2")
+                      albumsheader.className = "Albumsheader"
+                      albumsheader.innerHTML = fbname1 + "  ("+response.likes+" likes)"
+                      $("#Albums").append(albumsheader)
+                      loadd(fbname1)
+                    }
+                  )
+                
+            }
+            </script> 
     <script>
         //display table of data
         function makeTables(data,fbname1){
             console.log("MAKE TABLE")
-            var albumsheader = document.createElement("h2")
-            albumsheader.className = "Albumsheader"
-            albumsheader.innerHTML = fbname1 
-            $("#Albums").append(albumsheader)
             $.each(data, function(index, element) {
               $("#Albums").append("<paper-item class = "+element.id+"> "+element.name+"("+element.count+" Photos )</paper-item>")
               $("."+element.id).click(function() {
@@ -237,7 +248,7 @@
                         linebar();
                       }
                     })
-                    sortlike(element.id)
+                    //sortlike(element.id)
                   })
                 }
               })
@@ -267,7 +278,7 @@
                         linebar();
                       }
                     })
-                    sortlike(element.id)
+                    //sortlike(element.id)
                   })
                 }
               })
@@ -290,9 +301,11 @@
           }, function(response){});
           })
       }
-     function sortlike(albumid){
+      </script>
+    <script>
+     /*function sortlike(albumid){
          console.log($("h3"))
-      }
+      }*/
     </script>
     <script>
       function viewonfb(link){
@@ -304,6 +317,8 @@
           $(".container").append(atag)
         }
       }
+      </script>
+    <script>
       function anchorthem(link){
         if(link!=null){
           var atag = document.createElement("a")
@@ -313,6 +328,8 @@
           $(".container").append(atag)
         }
       }
+      </script>
+    <script>
       function manylikes(id){
               var getlike = 0 ;
               getlike.id = "getlike"
@@ -358,7 +375,8 @@
               $(".container").append(h2)
             }
       }
-
+      </script>
+    <script>
       function likebar(id){
             var dive = document.createElement("div")
             dive.id = id
@@ -369,6 +387,8 @@
             $(".container").append(dive)
             
       }
+      </script>
+    <script>
       function linebar(){
             line = "______________________________________________________________________________________________________________________"
             var h2 = document.createElement("h2")
@@ -388,14 +408,15 @@
           <paper-icon-button icon = "face"> </paper-icon-button>
           <paper-icon-button icon = "book"> </paper-icon-button>
           <div id ="headline"class = "core-header">Facebook Fanpage Photo Loader</div>
-          <paper-button id = "seemore"><core-icon icon = "forward"> </core-icon>SEE MORE 
+          <paper-button id = "seemore">
+          <core-icon icon = "forward"></core-icon>SEE MORE 
           </paper-button>     
         </core-toolbar>
         <!--INPUT BOX-->
 
         <div id = "enterfbpagename" horizontal layout center>
            <div >https://www.facebook.com/</div>
-           <paper-input-decorator flex self-center id = "enterfbpagenamebox" error="input is required" label = "ENTER PAGE NAME" autovalidate = "" layout = "" class="" focused="" type="text"  placeholder = "" >
+           <paper-input-decorator flex self-center id = "enterfbpagenamebox" error="load photo from a facebook fanpage" label = "ENTER PAGE NAME" autovalidate = "" layout = "" class="" focused="" type="text"  placeholder = "" >
               <input flex self-center is = "core-input" required = "" placeholder = "" id = "fbname" onkeypress = "keyp(event)">
             </paper-input-decorator>
          <div flex self-center>Example : 9gag , yokhandsome , microsoft , minecraft , facebook </div>
@@ -409,7 +430,6 @@
           <!-- container for button created for page content-->
           <div layout vertical center class = "container"> 
           <!-- Go to www.addthis.com/dashboard to customize your tools -->
-           
             <section>
                 <core-selector layout vertical center id = "Albums">
                 </core-selector>
