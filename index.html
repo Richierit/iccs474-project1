@@ -156,24 +156,13 @@
            }(document, 'script', 'facebook-jssdk'));
     </script>
     <script>
+    function fbpagename(){
+      fbname1 = document.getElementById('fbname').value
+      fbnameinput(fbname1)
+      alert("loading albums from FACEBOOK.com/" + fbname1)
+    };
     function fbnameinput(fbname){
       writehead(fbname)
-    }
-    function loadd(fbname1){
-      $.get("https://graph.facebook.com/"+fbname1+"/albums?limit=200",
-                function (response) {
-                  $("#Albums").show();
-                  $("#fb-like-box").show();
-                  console.log(response)
-                  if (response && !response.error) {
-                      //listTables(response.data);
-                    // albums loaded as array, try to show this data in table
-                    // set class name for each row
-                    // set album-id as HTML attribute for each row
-                      makeTables(response.data,fbname1)
-                  }
-              }
-            )
     }
     </script>   
     <script>
@@ -188,6 +177,21 @@
                     }
                   )
             }
+    function loadd(fbname1){
+      $.get("https://graph.facebook.com/"+fbname1+"/albums?limit=200",
+                function (response) {
+                  $("#Albums").show();
+                  $("#fb-like-box").show();
+                  console.log(response)
+                  if (response && !response.error) {
+                    // albums loaded as array, try to show this data in table
+                    // set class name for each row
+                    // set album-id as HTML attribute for each row
+                      makeTables(response.data,fbname1)
+                  }
+              }
+            )
+    }
     </script> 
     <script>
         //display table of data
@@ -370,11 +374,7 @@
             fbpagename();
           }
         }
-          function fbpagename(){
-            fbname1 = document.getElementById('fbname').value
-            fbnameinput(fbname1)
-            alert("loading albums from FACEBOOK.com/" + fbname1)
-          };
+          
         </script>
       <core-header-panel layout vertical center>
         <core-toolbar>
@@ -429,14 +429,14 @@
                   </core-item>
             
               <div style="border: 1px dotted silver; -webkit-user-select: none;" touch-action="none">
-              <core-drag-drop></core-drag-drop>
-              <img class="box" style="background-color: black;"
-              src="../logo/9gag.png"  draggable="false" name = "9gag"></img>
-              <img class="box" style="background-color: orange;"src="../logo/yokhandsome.png" draggable="false" name = "yokhandsome" ></img>
-              <img class="box" style="background-color: #BADA55;"src="../logo/microsoft.jpg" draggable="false" name = "microsoft"></img>
-              <img class="box" style="background-color: #3ADF00;"src="../logo/minecraft.jpg" draggable="false" name = "minecraft"></img>
-              <img class="box" style="background-color: #3b5998;"src="../logo/facebook.png" draggable="false" name = "facebook"></img>
-              <img class="box"  style="background-color: white;"src="../logo/anipongplanet.png" draggable="false" name = "anipongplanet"></img>
+                <core-drag-drop></core-drag-drop>
+                <img class="box" style="background-color: black;"
+                src="../logo/9gag.png"  draggable="false" name = "9gag"></img>
+                <img class="box" style="background-color: orange;"src="../logo/yokhandsome.png" draggable="false" name = "yokhandsome" ></img>
+                <img class="box" style="background-color: #BADA55;"src="../logo/microsoft.jpg" draggable="false" name = "microsoft"></img>
+                <img class="box" style="background-color: #3ADF00;"src="../logo/minecraft.jpg" draggable="false" name = "minecraft"></img>
+                <img class="box" style="background-color: #3b5998;"src="../logo/facebook.png" draggable="false" name = "facebook"></img>
+                <img class="box"  style="background-color: white;"src="../logo/anipongplanet.png" draggable="false" name = "anipongplanet"></img>
               </div>
             <div id="drop" class="box" style="border: 3px solid silver; position: relative; width: 775px; height: 250px;" draggable="false">DROP here</div>
             <script>
