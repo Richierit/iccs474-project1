@@ -36,6 +36,7 @@
             margin: 0;
             background-color: #E5E5E5 ;
             font-family: 'RobotoDraft', sans-serif;
+            min-width: 850px;
           }
           core-header-panel {
             height: 100%;
@@ -328,25 +329,25 @@
       </script>
     <script>
       function manylikes(id){
-              var getlike = 0 ;
-              getlike.id = "getlike"
-              var result = null;
-              $.get(
-                "https://graph.facebook.com/" +id+ "?type=post&fields=id,name,likes.limit(1).summary(true)",
-                  function (likes){
-                    getlike = likes.likes.summary.total_count;
-                    writelikes(getlike, id)
-                  }
-                );
-              console.log("result")
-              console.log(getlike)    
+        var getlike = 0 ;
+        getlike.id = "getlike"
+        var result = null;
+        $.get(
+          "https://graph.facebook.com/" +id+ "?type=post&fields=id,name,likes.limit(1).summary(true)",
+            function (likes){
+              getlike = likes.likes.summary.total_count;
+              writelikes(getlike, id)
             }
+          );
+        console.log("result")
+        console.log(getlike)    
+      }
     </script>
     <script>
       function writelikes(like, id){
-                  var htree = document.createElement("h3")
-                  htree.innerHTML = like + " peoples like this"
-                  $("#"+id).append(htree)
+        var htree = document.createElement("h3")
+        htree.innerHTML = like + " peoples like this"
+        $("#"+id).append(htree)
       }
     </script>
     <script>
@@ -456,7 +457,7 @@
               <img class="box" style="background-color: #BADA55;"src="../logo/microsoft.jpg" draggable="false" name = "microsoft"></img>
               <img class="box" style="background-color: #3ADF00;"src="../logo/minecraft.jpg" draggable="false" name = "minecraft"></img>
               <img class="box" style="background-color: #3b5998;"src="../logo/facebook.png" draggable="false" name = "facebook"></img>
-              <img class="box"  style="background-color: white;"src="../logo/trapstyle.png" draggable="false" name = "trapstyle"></img>
+              <img class="box"  style="background-color: white;"src="../logo/anipongplanet.png" draggable="false" name = "anipongplanet"></img>
               </div>
             <div id="drop" class="box" style="border: 3px solid silver; position: relative; width: 775px; height: 250px;" draggable="false">DROP here</div>
             <script>
@@ -496,7 +497,6 @@
           </div>
         </div>
       </core-header-panel>
-      
       <footer>
         <p>&copy; 2015 Supasit Tanapatpiboon.</p>
       </footer>
