@@ -156,16 +156,19 @@
            }(document, 'script', 'facebook-jssdk'));
     </script>
     <script>
+    //get input 
     function fbpagename(){
       fbname1 = document.getElementById('fbname').value
       fbnameinput(fbname1)
       alert("loading albums from FACEBOOK.com/" + fbname1)
     };
+    //write album table
     function fbnameinput(fbname){
       writehead(fbname)
-    }
+    };
     </script>   
     <script>
+    //write table head
     function writehead(fbname1){
                 $.get("https://graph.facebook.com/"+fbname1+"?type=page&fields=likes",
                     function (response){
@@ -177,6 +180,7 @@
                     }
                   )
             }
+    //get album list
     function loadd(fbname1){
       $.get("https://graph.facebook.com/"+fbname1+"/albums?limit=200",
                 function (response) {
@@ -187,14 +191,14 @@
                     // albums loaded as array, try to show this data in table
                     // set class name for each row
                     // set album-id as HTML attribute for each row
-                      makeTables(response.data,fbname1)
+                    makeTables(response.data,fbname1)
                   }
               }
             )
     }
     </script> 
     <script>
-        //display table of data
+        //write table of data
         function makeTables(data,fbname1){
             console.log("MAKE TABLE")
             $.each(data, function(index, element) {
@@ -212,6 +216,7 @@
         }
     </script>
     <script>
+    //load pic 
         function loadpic( album_id, name, count ){  
           $.get("https://graph.facebook.com/"+album_id+"/photos?limit=50",
             function (response) {
@@ -226,7 +231,7 @@
               $(".container").append(albumsheader)
               if (response && !response.error) {
                 draw(response)
-                }
+              }
               })
           }
     </script>
@@ -277,7 +282,7 @@
             console.log(id2)
             FB.ui({
             method: 'share',
-            href: 'https://www.facebook.com/9gag/photos/'+id,
+            href: 'https://www.facebook.com/9gag/photos/'+id ,
           }, function(response){});
           })
       }
@@ -292,7 +297,7 @@
           $(".container").append(atag)
         }
       }
-      </script>
+    </script>
     <script>
       function anchorthem(link){
         if(link!=null){
@@ -303,7 +308,7 @@
           $(".container").append(atag)
         }
       }
-      </script>
+    </script>
     <script>
       function manylikes(id){
         var getlike = 0 ;
@@ -356,10 +361,8 @@
             var dive = document.createElement("div")
             dive.id = id
             $(".container").append(dive)
-
-            
       }
-      </script>
+    </script>
     <script>
       function linebar(){
             line = "______________________________________________________________________________________________________________________"
@@ -374,7 +377,6 @@
             fbpagename();
           }
         }
-          
         </script>
       <core-header-panel layout vertical center>
         <core-toolbar>
@@ -385,8 +387,8 @@
             </paper-button>
             </a>
           </div>
-          <paper-icon-button icon = "face"> </paper-icon-button>
-          <paper-icon-button icon = "book"> </paper-icon-button>
+          <paper-icon-button icon = "face"></paper-icon-button>
+          <paper-icon-button icon = "book"></paper-icon-button>
           <div id ="headline"class = "core-header">Facebook Fanpage Photo Loader</div>
           <paper-button id = "seemore">
           <core-icon icon = "forward"></core-icon>SEE MORE 
@@ -426,7 +428,7 @@
               <section layout  center class = "content">
               </core-collapse>
                 <core-item id = "Try Drag"  horizontal layout end ><core-icon icon = "arrow-drop-down"></core-icon>TRY DRAG ONE OF THESE BOX ONTO THE BIGGER BOX
-                  </core-item>
+                </core-item>
             
               <div style="border: 1px dotted silver; -webkit-user-select: none;" touch-action="none">
                 <core-drag-drop></core-drag-drop>
@@ -469,7 +471,6 @@
                 }
               }
             </script>
-            <core-drag-avatar style="border: 3px solid; width: 32px; height: 32px; border-radius: 32px; -webkit-transform: translate(630px, 44px); transform: translate(630px, 44px); display: none; background-color: rgb(245, 245, 245);"><div id="hello">Hello World</div></core-drag-avatar>
             </section>
             </section>
 
