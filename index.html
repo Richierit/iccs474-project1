@@ -256,19 +256,19 @@
     <script>
       function draw(response){
         $.each(response, function(index, element){
-                    $.each(element, function(k,item){
-                      if(item.source != null){
-                        showpic(item.source, item.id);
-                        viewonfb(item.link);
-                        anchorthem(item.source);
-                        manylikes(item.id);
-                        likebar(item.id);
-                        writename(item.name, item.id);
-                        sharebutton(item.id);
-                        linebar();
-                      }
-                    })
-                  })
+          $.each(element, function(k,item){
+            if(item.source != null){
+              showpic(item.source, item.id);
+              viewonfb(item.link);
+              anchorthem(item.source);
+              manylikes(item.id);
+              likebar(item.id);
+              writename(item.name, item.id);
+              sharebutton(item.id);
+              linebar();
+            }
+          })
+        })
       }
     </script>
     <script>
