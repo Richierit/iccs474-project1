@@ -9,7 +9,6 @@
         content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <!-- 2. Load the component using an HTML Import -->
       
-      </script>
       <link rel="import"
         href="../bower_components/font-roboto/roboto.html">
       <link rel="import"
@@ -111,7 +110,6 @@
           }
           h3 {
             color: red;
-              background-color:#D8D8D8;
           }
           #Albums{
             background-color: white;
@@ -134,6 +132,9 @@
           .heading{
             background-color: blue;
             color: white;
+          }
+          .trydrag{
+            background-color:white;
           }
     </style>
   </head>
@@ -158,10 +159,13 @@
     <script>
     //get input 
     function fbpagename(){
+      console.log("Loading...")
       fbname1 = document.getElementById('fbname').value
       fbnameinput(fbname1)
       alert("loading albums from FACEBOOK.com/" + fbname1)
     };
+    </script>
+    <script>
     //write album table
     function fbnameinput(fbname){
       writehead(fbname)
@@ -170,16 +174,19 @@
     <script>
     //write table head
     function writehead(fbname1){
-                $.get("https://graph.facebook.com/"+fbname1+"?type=page&fields=likes",
-                    function (response){
-                      var albumsheader = document.createElement("h2")
-                      albumsheader.className = "Albumsheader"
-                      albumsheader.innerHTML = fbname1 + "  ("+response.likes+" likes)"
-                      $("#Albums").append(albumsheader)
-                      loadd(fbname1)
-                    }
-                  )
+            $.get("https://graph.facebook.com/"+fbname1+"?type=page&fields=likes",
+                function (response){
+                  console.log("Loading...")
+                  var albumsheader = document.createElement("h2")
+                  albumsheader.className = "Albumsheader"
+                  albumsheader.innerHTML = fbname1 + "  ("+response.likes+" likes)"
+                  $("#Albums").append(albumsheader)
+                  loadd(fbname1)
+                }
+              )
             }
+    </script>   
+    <script>
     //get album list
     function loadd(fbname1){
       $.get("https://graph.facebook.com/"+fbname1+"/albums?limit=200",
@@ -202,7 +209,9 @@
         function makeTables(data,fbname1){
             console.log("MAKE TABLE")
             $.each(data, function(index, element) {
+              if(element.count != null){
               $("#Albums").append("<paper-item class = "+element.id+"> "+element.name+"("+element.count+" Photos )</paper-item>")
+            }
               $("."+element.id).click(function() {
                 console.log(element)
                 console.log(element.name)
@@ -238,18 +247,17 @@
     <script>
     //seemore button
     function next1(next){
-      var next2 = next
       $("#seemore").click(function seemore(){
-        var next3 = next2
+        //var next3 = next2
         $.get(next ,
-            function (response) {
-              next1(response.paging.next)
-              console.log("Response = ")
-              console.log(response)
-              if (response && !response.error) {
-                  draw(response)
-                }
-              })
+          function (response) {
+            next1(response.paging.next)
+            console.log("Response = ")
+            console.log(response)
+            if (response && !response.error) {
+              draw(response)
+            }
+          })
       })
     }
     </script>
@@ -264,7 +272,7 @@
               manylikes(item.id);
               likebar(item.id);
               writename(item.name, item.id);
-              sharebutton(item.id);
+              sharebutton(item.id,item.link);
               linebar();
             }
           })
@@ -272,23 +280,26 @@
       }
     </script>
     <script>
-      function sharebutton(id){
+    //sharebutton
+      function sharebutton(id,link){
         var pbutton = document.createElement("paper-button")
           pbutton.id = id + "share" 
           pbutton.style.cssText = "background-color: #3b5998; color: white"
           pbutton.innerHTML = "SHARE ON FACEBOOK"
           $(".container").append(pbutton)
+          console.log(link)
           $("#"+id+"share").click(function(){
             var id2 = id
             console.log(id2)
             FB.ui({
             method: 'share',
-            href: 'https://www.facebook.com/9gag/photos/'+id ,
+            href: link ,
           }, function(response){});
           })
       }
       </script>
     <script>
+    //view on facebook
       function viewonfb(link){
         if(link!=null){
           var atag = document.createElement("a")
@@ -300,6 +311,7 @@
       }
     </script>
     <script>
+    //source link
       function anchorthem(link){
         if(link!=null){
           var atag = document.createElement("a")
@@ -311,10 +323,10 @@
       }
     </script>
     <script>
+    //get total link
       function manylikes(id){
         var getlike = 0 ;
         getlike.id = "getlike"
-        var result = null;
         $.get(
           "https://graph.facebook.com/" +id+ "?type=post&fields=likes.limit(1).summary(true)",
             function (likes){
@@ -327,6 +339,7 @@
       }
     </script>
     <script>
+    //write likes
       function writelikes(like, id){
         var htree = document.createElement("h3")
         htree.innerHTML = like + " peoples like this"
@@ -347,6 +360,7 @@
       function writename(name, id){
             if(name != null){
               var h2 = document.createElement("h2")
+              h2.style.cssText = "background-color: white; padding: 55px;"
               h2.innerHTML = "Description : <br>" + name
               $(".container").append(h2)
             }else{
@@ -374,12 +388,13 @@
     </script>
     <script>
         function keyp(e){
-          if(e.which ==13){
+          if(e.which == 13){
             fbpagename();
           }
         }
         </script>
       <core-header-panel layout vertical center>
+      <!--toolbar-->
         <core-toolbar>
           <div id = "homey">
             <a href = "index.html" id = "home"> 
@@ -402,7 +417,6 @@
            <paper-input-decorator flex self-center id = "enterfbpagenamebox" error="load photo from a facebook fanpage" label = "ENTER PAGE NAME" autovalidate = "" layout = "" class="" focused="" type="text"  placeholder = "" >
               <input flex self-center is = "core-input" required = "" placeholder = "" id = "fbname" onkeypress = "keyp(event)">
           </paper-input-decorator>
-
          <div flex self-center>Example : 9gag , yokhandsome , microsoft , minecraft , facebook </div>
          </div>
         <div id = "enterfbpagenamebutton">
@@ -415,9 +429,9 @@
           <div layout vertical center class = "container"> 
 
 
-          <paper-button class="heading" onclick="document.querySelector('#collapse1').toggle();">
-          <div>CLICK ME</div>
-          </paper-button>
+            <paper-button class="heading" onclick="document.querySelector('#collapse1').toggle();">
+            <div>OR USE DRAG N DROP</div>
+            </paper-button>
           
             <section>
             
@@ -428,10 +442,12 @@
               <core-collapse id="collapse1" class="core-collapse-closed" style="overflow: hidden;">
               <section layout  center class = "content">
               </core-collapse>
-                <core-item id = "Try Drag"  horizontal layout end ><core-icon icon = "arrow-drop-down"></core-icon>TRY DRAG ONE OF THESE BOX ONTO THE BIGGER BOX
+
+                <core-item class = "trydrag"  horizontal layout end >
+                <core-icon icon = "arrow-drop-down"></core-icon>TRY DRAG ONE OF THESE BOX ONTO THE BIGGER BOX
                 </core-item>
             
-              <div style="border: 1px dotted silver; -webkit-user-select: none;" touch-action="none">
+              <div class="trydrag"style="border: 1px dotted silver; -webkit-user-select: none;" touch-action="none">
                 <core-drag-drop></core-drag-drop>
                 <img class="box" style="background-color: black;"
                 src="../logo/9gag.png"  draggable="false" name = "9gag"></img>
@@ -439,7 +455,7 @@
                 <img class="box" style="background-color: #BADA55;"src="../logo/microsoft.jpg" draggable="false" name = "microsoft"></img>
                 <img class="box" style="background-color: #3ADF00;"src="../logo/minecraft.jpg" draggable="false" name = "minecraft"></img>
                 <img class="box" style="background-color: #3b5998;"src="../logo/facebook.png" draggable="false" name = "facebook"></img>
-                <img class="box"  style="background-color: white;"src="../logo/anipongplanet.png" draggable="false" name = "anipongplanet"></img>
+                <img class="box"  style="background-color: white;"src="../logo/thelordoftheringstrilogy.jpg" draggable="false" name = "lordoftheringstrilogy"></img>
               </div>
             <div id="drop" class="box" style="border: 3px solid silver; position: relative; width: 775px; height: 250px;" draggable="false">DROP here</div>
             <script>
@@ -477,6 +493,7 @@
 
           <div class="fb-like-box" id = "fb-like-box" data-href="https://www.facebook.com/yokhandsome" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true">
           </div>
+
         </div>
         
       <footer>
